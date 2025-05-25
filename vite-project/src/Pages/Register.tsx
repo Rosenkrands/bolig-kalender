@@ -88,13 +88,9 @@ export default function Register() {
             <Typography component="h1" variant={isSmallScreen ? "h6" : "h5"}>
               Register at
             </Typography>
-            <img
-              src="sample-app-logo.svg"
-              alt="sample app logo"
-              height="30px"
-            />
+            <img src="app-logo.svg" alt="sample app logo" height="30px" />
             <Typography component="h1" variant={isSmallScreen ? "h6" : "h5"}>
-              <strong>Sample App</strong>
+              <strong>BoligKalender</strong>
             </Typography>
           </Stack>
           <form onSubmit={handleSubmit}>

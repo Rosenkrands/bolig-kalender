@@ -12,7 +12,7 @@ export default function Copyright() {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://google.com/">
-        Sample App
+        BoligKalender
       </Link>{" "}
       {new Date().getFullYear()}.
     </Typography>

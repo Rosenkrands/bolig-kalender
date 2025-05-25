@@ -90,13 +90,9 @@ export default function AppPage({
             onClick={() => handleNavigateHome()}
           >
             <Stack direction="row" spacing={1} sx={{ flexGrow: 1 }}>
-              <img
-                src="sample-app-logo.svg"
-                alt="sample app logo"
-                height="30px"
-              />
+              <img src="app-logo.svg" alt="app logo" height="30px" />
               <Typography variant="h6" component="div" noWrap>
-                <strong>Sample App</strong>
+                <strong>BoligKalender</strong>
               </Typography>
             </Stack>
           </Box>

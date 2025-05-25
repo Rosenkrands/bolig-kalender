@@ -1,4 +1,4 @@
-# Sample React App
+# BoligKalender App
 
 This repository provides a full-stack development environment using Docker Compose, featuring:
 
@@ -27,8 +27,8 @@ This repository provides a full-stack development environment using Docker Compo
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/your-username/sample-react-app.git
-   cd sample-react-app
+   git clone https://github.com/your-username/bolig-kalender.git
+   cd bolig-kalender
    ```
 
 2. **Copy and configure environment variables:**

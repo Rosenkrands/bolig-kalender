@@ -36,7 +36,7 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.Cookie.Name = "SampleAppCookie";
+    options.Cookie.Name = "BoligKalenderAppCookie";
 });
 
 // Add Swagger services
