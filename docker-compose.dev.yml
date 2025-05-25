@@ -1,0 +1,75 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: sample-nginx-dev
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/development.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+      - api
+    networks:
+      - network
+
+  app:
+    build:
+      context: ./vite-project # The build context, where the Dockerfile is located
+      dockerfile: Dockerfile.dev # The Dockerfile to use for building the image
+    container_name: sample-app-dev # The name of the container
+    restart: always # Always restart the container if it stops
+    ports:
+      - 3000:3000 # Map port 3000 on the host to port 3000 on the container
+    volumes:
+      - ./vite-project:/app # Mount the ./app directory on the host to /app in the container
+      - /app/node_modules # Anonymous volume to persist node_modules
+    networks:
+      - network # Connect the container to the 'network' network
+
+  api:
+    build:
+      context: ./asp-net-core-project # Path to the directory containing the Dockerfile for the API service
+      dockerfile: Dockerfile.dev # Specifies the Dockerfile to use for building the API service
+    container_name: sample-api-dev # Sets the container name for the API service
+    ports:
+      - 4000:4000 # Maps port 4000 on the host to port 4000 in the container (HTTP)
+    volumes:
+      - ./asp-net-core-project:/src # Mounts the ASP.NET Core project directory to /app in the container
+    env_file:
+      - ./.env # Loads environment variables from a .env file
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development # Sets the ASP.NET Core environment to Development
+      - ASPNETCORE_URLS=http://+:4000 # Sets the ASP.NET Core URL to http://+:4000
+      - POSTGRES_SERVER=db # Sets the PostgreSQL server address to the 'db' service
+    depends_on:
+      db:
+        condition: service_healthy # Ensures the 'api' service starts only after the 'db' service is healthy
+    networks:
+      - network # Connects the 'api' service to the 'network' network
+
+  db:
+    image: postgres:latest # Uses the latest PostgreSQL image from Docker Hub
+    container_name: sample-db-dev # Sets the container name for the PostgreSQL service
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER} # Sets the PostgreSQL user from environment variables
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Sets the PostgreSQL password from environment variables
+      POSTGRES_DB: ${POSTGRES_DB} # Sets the PostgreSQL database name from environment variables
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8" # Initializes the database with UTF-8 encoding
+    ports:
+      - 5432:5432 # Maps port 5432 on the host to port 5432 in the container
+    volumes:
+      - db_data_dev:/var/lib/postgresql/data # Persists PostgreSQL data in a Docker volume
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"] # Checks if PostgreSQL is ready
+      interval: 5s # Interval between health checks
+      timeout: 5s # Timeout for each health check
+      retries: 5 # Number of retries before considering the service as unhealthy
+    networks:
+      - network # Connects the 'db' service to the 'network' network
+
+volumes:
+  db_data_dev: # Defines a Docker volume named 'db_data' for persisting PostgreSQL data
+
+networks:
+  network:
+    driver: bridge # Use the bridge network driver

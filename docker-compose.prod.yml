@@ -1,0 +1,71 @@
+services:
+  nginx:
+    image: nginx:latest
+    container_name: sample-nginx-prod
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/production.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+      - api
+    restart: always
+    networks:
+      - network
+
+  app:
+    build:
+      context: ./vite-project
+      dockerfile: Dockerfile.prod
+    container_name: sample-app-prod
+    restart: always
+    networks:
+      - network
+
+  api:
+    build:
+      context: ./asp-net-core-project
+      dockerfile: Dockerfile.prod # Assuming you have a production Dockerfile for the API
+    container_name: sample-api-prod
+    # ports:
+    #   - "4000:4000"
+    env_file:
+      - ./.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:4000
+      - POSTGRES_SERVER=db
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    networks:
+      - network
+
+  db:
+    image: postgres:latest
+    container_name: sample-db-prod
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    # ports:
+    #   - "5432:5432"
+    volumes:
+      - db_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+    networks:
+      - network
+
+volumes:
+  db_data_prod:
+
+networks:
+  network:
+    driver: bridge

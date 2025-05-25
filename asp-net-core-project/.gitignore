@@ -1,0 +1,49 @@
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+*.generated.cs
+*.generated.ts
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+*.nuspec
+project.assets.json
+project.nuget.cache
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+
+# Entity Framework
+*.edmx
+*.edmx.diagram
+*.edmx.sql
+*.edmx.sqlce
+*.edmx.sqlserver
+*.edmx.sqlserverce
