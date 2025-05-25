@@ -42,8 +42,21 @@ export default function Home() {
             opgaver i dit hjem. Uanset om du bor i en lejlighed, et hus eller en
             anden boligtype, kan du tilpasse din kalender til dine behov.
           </Typography>
+          <Typography variant="h5" sx={{ mb: 2 }}>
+            Kom godt i gang
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            For at komme i gang med BoligKalender, skal du først vælge din
+            boligtype. Dette hjælper os med at tilpasse kalenderen til dine
+            specifikke behov og opgaver.
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 2 }}>
+            Når du har valgt din boligtype, kan du begynde at udforske
+            funktionerne i BoligKalender. Vi håber, at du vil finde det nyttigt
+            til at holde styr på dine boligrelaterede opgaver og
+            vedligeholdelse.
+          </Typography>
           <Divider sx={{ mb: 2 }} />
-
           <Typography variant="h5" sx={{ mb: 2 }}>
             Vælg boligtype
           </Typography>
@@ -62,6 +75,7 @@ export default function Home() {
               </MenuItem>
             </Select>
           </FormControl>
+          <Divider sx={{ my: 4 }} />
         </Container>
       </AppPage>
     </AuthorizeView>
