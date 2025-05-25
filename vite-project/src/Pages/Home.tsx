@@ -1,20 +1,8 @@
-import {
-  Container,
-  Typography,
-  Stack,
-  Card,
-  CardContent,
-  useMediaQuery,
-} from "@mui/material";
+import { Container, Typography, useMediaQuery } from "@mui/material";
 import AppPage from "../Components/AppPage.tsx";
 import AuthorizeView from "../Components/AuthorizeView.tsx";
 
 export default function Home() {
-  // helpers
-  const isSmallScreen = useMediaQuery((theme: any) =>
-    theme.breakpoints.down("md")
-  );
-
   return (
     <AuthorizeView>
       <AppPage>
