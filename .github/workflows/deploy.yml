@@ -33,7 +33,7 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /sample-react-app
+            cd /bolig-kalender
             git pull
             bash re_deploy.sh
           EOF
