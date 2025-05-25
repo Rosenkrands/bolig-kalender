@@ -1,4 +1,4 @@
-import { Container, Typography, useMediaQuery } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import AppPage from "../Components/AppPage.tsx";
 import AuthorizeView from "../Components/AuthorizeView.tsx";
 
