@@ -22,7 +22,7 @@ type ThemeContextType = {
   mode: Mode;
 };
 
-const defaultColor: Color = "lightPink";
+const defaultColor: Color = "green";
 
 const ThemeContext = React.createContext<ThemeContextType>({
   toggleMode: () => {},
