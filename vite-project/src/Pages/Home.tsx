@@ -14,7 +14,7 @@ import { useState } from "react";
 import { HousingType } from "../enums.ts";
 
 export default function Home() {
-  const [housingType, setHousingType] = useState<HousingType | null>(null);
+  const [housingType, setHousingType] = useState<HousingType | "">("");
 
   const handleHousingTypeChange = (event: SelectChangeEvent) => {
     const value = event.target.value as HousingType;
@@ -69,6 +69,9 @@ export default function Home() {
               label="Boligtype"
               onChange={handleHousingTypeChange}
             >
+              <MenuItem value="">
+                <em>Vælg boligtype</em>
+              </MenuItem>
               <MenuItem value={HousingType.House}>{HousingType.House}</MenuItem>
               <MenuItem value={HousingType.Apartment}>
                 {HousingType.Apartment}
