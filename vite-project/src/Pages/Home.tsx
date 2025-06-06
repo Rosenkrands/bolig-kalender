@@ -51,6 +51,7 @@ export default function Home() {
       .post("/api/housing-type", { housingType: value })
       .then(() => {
         console.log("Housing type saved successfully.");
+        setMessage("Housing type updated successfully.");
       })
       .catch((error) => {
         console.error("Failed to save housing type:", error);
