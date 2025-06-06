@@ -110,7 +110,7 @@ export default function Home() {
               value={housingType ?? ""}
               label="Boligtype"
               onChange={handleHousingTypeChange}
-              disabled={error !== ""}
+              // disabled={error !== ""}
             >
               <MenuItem value="">
                 <em>Vælg boligtype</em>
