@@ -78,7 +78,20 @@ export default function Home() {
               </MenuItem>
             </Select>
           </FormControl>
-          <Divider sx={{ my: 4 }} />
+          <Divider sx={{ my: 2 }} />
+          {housingType && (
+            <>
+              <Typography variant="h5" sx={{ mb: 2 }}>
+                Foreslåede opgaver baseret på din boligtype
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                Du har valgt <strong>{housingType}</strong> som din boligtype.
+                Dette vil hjælpe os med at tilpasse BoligKalender til dine
+                specifikke behov. Du kan nu begynde at tilføje opgaver og
+                planlægge vedligeholdelse baseret på din boligtype.
+              </Typography>
+            </>
+          )}
         </Container>
       </AppPage>
     </AuthorizeView>
