@@ -10,7 +10,6 @@ export default function Account() {
       <AppPage>
         <AccountInformation />
         <Divider sx={{ my: 4 }} />
-
         <AccountDelete />
       </AppPage>
     </AuthorizeView>

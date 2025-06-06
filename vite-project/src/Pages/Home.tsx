@@ -1,4 +1,6 @@
 import {
+  Alert,
+  Box,
   Container,
   Divider,
   FormControl,
@@ -10,15 +12,50 @@ import {
 } from "@mui/material";
 import AppPage from "../Components/AppPage.tsx";
 import AuthorizeView from "../Components/AuthorizeView.tsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HousingType } from "../enums.ts";
+import axios from "axios";
 
 export default function Home() {
+  // states
   const [housingType, setHousingType] = useState<HousingType | "">("");
+  const [error, setError] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+
+  // functions
+  useEffect(() => {
+    // Load the user's housing type from local storage or API
+    // const storedHousingType = localStorage.getItem("housingType");
+    // if (storedHousingType) {
+    //   setHousingType(storedHousingType as HousingType);
+    // }
+
+    // You can also fetch the housing type from an API if needed
+    axios
+      .get("/api/housing-type")
+      .then((response) => {
+        setHousingType(response.data.housingType ?? "");
+      })
+      .catch((error) => {
+        console.error("Failed to fetch housing type:", error);
+        setError("Failed to load housing type.");
+      });
+  }, []);
 
   const handleHousingTypeChange = (event: SelectChangeEvent) => {
     const value = event.target.value as HousingType;
     setHousingType(value);
+    // Save the selected housing type to local storage or send it to the API
+    // localStorage.setItem("housingType", value);
+    axios
+      .post("/api/housing-type", { housingType: value })
+      .then(() => {
+        console.log("Housing type saved successfully.");
+      })
+      .catch((error) => {
+        console.error("Failed to save housing type:", error);
+        setError("Failed to save housing type.");
+      });
   };
 
   return (
@@ -60,6 +97,10 @@ export default function Home() {
           <Typography variant="h5" sx={{ mb: 2 }}>
             Vælg boligtype
           </Typography>
+          <Box width={"100%"} sx={{ mb: 1 }}>
+            {error && <Alert severity="error">{error}</Alert>}
+            {message && <Alert severity="success">{message}</Alert>}
+          </Box>
           <FormControl fullWidth>
             <InputLabel id="select-housing-type-label">Boligtype</InputLabel>
             <Select
@@ -68,6 +109,7 @@ export default function Home() {
               value={housingType ?? ""}
               label="Boligtype"
               onChange={handleHousingTypeChange}
+              disabled={error !== ""}
             >
               <MenuItem value="">
                 <em>Vælg boligtype</em>

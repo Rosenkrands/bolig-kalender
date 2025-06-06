@@ -23,8 +23,8 @@ export default function AccountInformation() {
     axios
       .get("/api/account")
       .then((response) => {
-        setFirstName(response.data.firstName || "");
-        setLastName(response.data.lastName || "");
+        setFirstName(response.data.firstName ?? "");
+        setLastName(response.data.lastName ?? "");
       })
       .catch((error) => {
         console.error(error);
