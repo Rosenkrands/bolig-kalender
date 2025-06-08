@@ -15,6 +15,7 @@ import AuthorizeView from "../Components/AuthorizeView.tsx";
 import { useEffect, useState } from "react";
 import { HousingType } from "../enums.ts";
 import axios from "axios";
+import CreateMaintenanceTask from "../Components/MaintenanceTask/CreateMaintenanceTask.tsx";
 
 export default function Home() {
   // states
@@ -135,6 +136,7 @@ export default function Home() {
               </Typography>
             </>
           )}
+          <CreateMaintenanceTask />
         </Container>
       </AppPage>
     </AuthorizeView>
