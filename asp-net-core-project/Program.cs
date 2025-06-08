@@ -174,6 +174,77 @@ app.MapPost("/deleteaccount", async (UserManager<ApplicationUser> userManager, S
     return Results.Ok();
 }).RequireAuthorization();
 
+// Get the HousingType for the current user
+app.MapGet("/housing-type", async (UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, ClaimsPrincipal user) =>
+{
+    var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (string.IsNullOrEmpty(userId))
+    {
+        return Results.Unauthorized();
+    }
+
+    var accountInfo = await dbContext.AccountInformations
+        .FirstOrDefaultAsync(a => a.UserId == userId);
+
+    if (accountInfo == null)
+    {
+        return Results.NoContent();
+    }
+
+    return Results.Ok(accountInfo.HousingType);
+}).RequireAuthorization();
+
+// Set the HousingType for the current user
+app.MapPost("/housing-type", async (UserManager<ApplicationUser> userManager, ApplicationDbContext dbContext, ClaimsPrincipal user, [FromBody] HousingTypeRequest request) =>
+{
+    var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (string.IsNullOrEmpty(userId))
+    {
+        return Results.Unauthorized();
+    }
+
+    // Find the user by ID
+    var applicationUser = await userManager.FindByIdAsync(userId);
+    if (applicationUser == null)
+    {
+        // If the user is not found, return a 404 Not Found response
+        return Results.NotFound();
+    }
+
+    var accountInfo = await dbContext.AccountInformations
+        .FirstOrDefaultAsync(a => a.UserId == userId);
+
+    if (accountInfo == null)
+    {
+        return Results.NotFound();
+    }
+
+    if (accountInfo == null)
+    {
+        // If no account information is found, create a new one
+        accountInfo = new AccountInformation
+        {
+            // Set the UserId to the current user's ID
+            UserId = userId,
+            User = applicationUser,
+
+            // Set the housing type from the request
+            HousingType = request.HousingType
+
+        };
+        dbContext.AccountInformations.Add(accountInfo);
+    }
+    else
+    {
+        // Update existing account information with new value from the request
+        accountInfo.HousingType = request.HousingType;
+    }
+
+    await dbContext.SaveChangesAsync();
+
+    return Results.Ok(accountInfo.HousingType);
+}).RequireAuthorization();
+
 app.UseCors(p => p
     .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost" || new Uri(origin).Host.EndsWith($".{Environment.GetEnvironmentVariable("DOMAIN")}"))
     .AllowAnyMethod()

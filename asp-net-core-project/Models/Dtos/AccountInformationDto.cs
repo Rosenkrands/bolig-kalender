@@ -7,4 +7,5 @@ public class AccountInformationDto : IDto
     public string? LastName { get; set; }
 
     // Additional properties can be added here as needed
+    public string? HousingType { get; set; }
 }

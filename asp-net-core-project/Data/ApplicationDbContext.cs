@@ -12,4 +12,5 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<AccountInformation> AccountInformations { get; set; } = null!;
+    public DbSet<MaintenanceTask> MaintenanceTasks { get; set; } = null!;
 }

@@ -18,6 +18,7 @@ public class AccountInformation : IEntity<int, AccountInformationDto>
 
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
+    public string? HousingType { get; set; }
 
     public AccountInformationDto ToDto()
     {
@@ -26,6 +27,7 @@ public class AccountInformation : IEntity<int, AccountInformationDto>
             Id = Id,
             FirstName = FirstName,
             LastName = LastName,
+            HousingType = HousingType,
         };
     }
 }

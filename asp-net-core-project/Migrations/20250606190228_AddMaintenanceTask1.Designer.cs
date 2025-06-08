@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using asp_net_core_project.Data;
@@ -12,9 +13,11 @@ using asp_net_core_project.Data;
 namespace asp_net_core_project.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250606190228_AddMaintenanceTask1")]
+    partial class AddMaintenanceTask1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,8 +233,8 @@ namespace asp_net_core_project.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
-                    b.Property<string>("HousingType")
-                        .HasColumnType("text");
+                    b.Property<int?>("HousingType")
+                        .HasColumnType("integer");
 
                     b.Property<string>("LastName")
                         .HasColumnType("text");
@@ -258,9 +261,9 @@ namespace asp_net_core_project.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.PrimitiveCollection<List<string>>("HousingTypes")
+                    b.PrimitiveCollection<int[]>("HousingTypes")
                         .IsRequired()
-                        .HasColumnType("text[]");
+                        .HasColumnType("integer[]");
 
                     b.PrimitiveCollection<List<int>>("RelevantMonths")
                         .IsRequired()
