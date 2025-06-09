@@ -30,7 +30,13 @@ function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
         >
           <Box>
             <Typography variant="subtitle1">Relevant for boligtype</Typography>
-            <Stack direction="row" spacing={1} sx={{ marginBottom: 1 }}>
+            <Stack
+              direction="row"
+              spacing={1}
+              useFlexGap={true}
+              flexWrap={"wrap"}
+              sx={{ marginBottom: 1 }}
+            >
               {task.HousingTypes.map((type) => (
                 <Chip
                   key={type}
@@ -42,7 +48,7 @@ function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
           </Box>
           <Box>
             <Typography variant="subtitle1">Relevante måneder</Typography>
-            <Stack direction="row" spacing={1}>
+            <Stack direction="row" useFlexGap flexWrap={"wrap"} spacing={1}>
               {task.RelevantMonths.map((month) => (
                 <Chip
                   key={month}
