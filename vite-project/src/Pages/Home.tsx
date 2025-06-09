@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import { HousingType } from "../enums.ts";
 import axios from "axios";
 import CreateMaintenanceTask from "../Components/MaintenanceTask/CreateMaintenanceTask.tsx";
+import DisplayMaintenanceTasks from "../Components/MaintenanceTask/DisplayMaintenanceTasks.tsx";
 
 export default function Home() {
   // states
@@ -35,6 +36,7 @@ export default function Home() {
     axios
       .get("/api/housing-type")
       .then((response) => {
+        console.log("Fetched housing type:", response.data);
         setHousingType(response.data ?? "");
       })
       .catch((error) => {
@@ -134,9 +136,32 @@ export default function Home() {
                 specifikke behov. Du kan nu begynde at tilføje opgaver og
                 planlægge vedligeholdelse baseret på din boligtype.
               </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                For at komme i gang kan du vælge fra allerede eksisterende
+                opgaver, eller du kan oprette dine egne vedligeholdelsesopgaver.
+              </Typography>
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="h5" sx={{ mb: 2 }}>
+                Vælg opgaver
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                Vælg en opgave fra listen nedenfor for at tilføje den til din
+                kalender. Du kan også oprette nye opgaver, hvis du har brug for
+                det.
+              </Typography>
+              {/* Here you would typically map through a list of predefined tasks based on the housing type */}
+              <DisplayMaintenanceTasks housingType={housingType} />
+              <Divider sx={{ my: 2 }} />
+              <Typography variant="h5" sx={{ mb: 2 }}>
+                Opret vedligeholdelsesopgave
+              </Typography>
+              <Typography variant="body1" sx={{ mb: 2 }}>
+                Klik på knappen nedenfor for at oprette en ny
+                vedligeholdelsesopgave.
+              </Typography>
+              <CreateMaintenanceTask />
             </>
           )}
-          <CreateMaintenanceTask />
         </Container>
       </AppPage>
     </AuthorizeView>
