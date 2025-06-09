@@ -35,7 +35,7 @@ export default function Home() {
     axios
       .get("/api/housing-type")
       .then((response) => {
-        setHousingType(response.data.housingType ?? "");
+        setHousingType(response.data ?? "");
       })
       .catch((error) => {
         console.error("Failed to fetch housing type:", error);

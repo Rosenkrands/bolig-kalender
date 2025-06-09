@@ -28,7 +28,9 @@ export default function CreateMaintenanceTask() {
 
   return (
     <>
-      <Button onClick={handleClickOpen}>Tilføj opgave</Button>
+      <Button variant="contained" onClick={handleClickOpen}>
+        Tilføj opgave
+      </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Opret vedligeholdelsesopgave</DialogTitle>
         <DialogContent>
