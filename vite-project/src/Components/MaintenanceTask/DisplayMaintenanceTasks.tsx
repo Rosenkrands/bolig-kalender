@@ -9,7 +9,7 @@ interface MaintenanceTask {
   RelevantMonths: number[];
 }
 
-function MaintenanceTaskPreview({ task }: { task: MaintenanceTask }) {
+function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
   return (
     <Card
       variant="outlined"
@@ -94,7 +94,7 @@ export default function DisplayMaintenanceTasks(
     //   <CardContent>
     <>
       <Typography variant="h5" gutterBottom>
-        Vedligeholdelsesopgaver
+        Vedligeholdelsesopgaver for {housingType.toLocaleLowerCase()}
       </Typography>
       <Stack spacing={2}>
         {maintenanceTasks.map((task) => (
