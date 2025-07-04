@@ -71,36 +71,31 @@ export default function DisplayMaintenanceTasks(
   const maintenanceTasks: MaintenanceTask[] = [
     {
       id: "1",
-      title: "Check Heating System",
-      description: "Ensure the heating system is functioning properly.",
+      title: "Tjek varmesystem",
+      description: "Sørg for, at varmesystemet fungerer korrekt.",
       HousingTypes: [HousingType.House, HousingType.Apartment],
       RelevantMonths: [1, 2, 3, 10, 11, 12],
     },
     {
       id: "2",
-      title: "Inspect Roof",
-      description: "Check for any damage or leaks in the roof.",
+      title: "Inspicer tag",
+      description: "Tjek for skader eller utætheder på taget.",
       HousingTypes: [HousingType.House],
       RelevantMonths: [4, 5, 6],
     },
     {
       id: "3",
-      title: "Clean Gutters",
-      description: "Remove debris from gutters to prevent blockages.",
+      title: "Rens tagrender",
+      description: "Fjern snavs fra tagrender for at undgå tilstopning.",
       HousingTypes: [HousingType.House],
       RelevantMonths: [7, 8, 9],
     },
   ];
 
   return (
-    // <Card
-    //   variant="outlined"
-    //   sx={{ backgroundColor: "primary.light", color: "primary.contrastText" }}
-    // >
-    //   <CardContent>
     <>
       <Typography variant="h5" gutterBottom>
-        Vedligeholdelsesopgaver for {housingType.toLocaleLowerCase()}
+        Vedligeholdelsesopgaver for <strong>{housingType}</strong>
       </Typography>
       <Stack spacing={2}>
         {maintenanceTasks.map((task) => (
@@ -108,7 +103,5 @@ export default function DisplayMaintenanceTasks(
         ))}
       </Stack>
     </>
-    //   </CardContent>
-    // </Card>
   );
 }
