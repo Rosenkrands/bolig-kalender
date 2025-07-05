@@ -23,7 +23,7 @@ import { useState } from "react";
 import { HousingType } from "../../enums";
 
 export default function CreateMaintenanceTask() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
