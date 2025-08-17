@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import AppPage from "../Components/AppPage";
 import AuthorizeView from "../Components/AuthorizeView";
 
