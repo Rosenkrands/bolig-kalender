@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import NotFound from "./Pages/NotFound";
 import Account from "./Pages/Account";
+import Tasks from "./Pages/Tasks";
 
 export default function App() {
   return (
@@ -12,7 +13,8 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signin" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/account" element={<Account />} />
+        <Route path="/konto" element={<Account />} />
+        <Route path="/opgaver" element={<Tasks />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

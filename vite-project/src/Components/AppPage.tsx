@@ -144,7 +144,7 @@ export default function AppPage({
         <Toolbar />
         <Box sx={{ overflow: "auto" }}>
           <List>
-            {[{ title: "Home", path: "/", icon: <HomeIcon /> }].map((obj) => (
+            {[{ title: "Hjem", path: "/", icon: <HomeIcon /> }].map((obj) => (
               <ListItem
                 key={obj.title}
                 disablePadding
@@ -159,27 +159,27 @@ export default function AppPage({
           </List>
           <Divider />
           <List>
-            {[{ title: "Page 1", path: "/page1", icon: <DashboardIcon /> }].map(
-              (obj) => (
-                <ListItem
-                  key={obj.title}
-                  disablePadding
-                  onClick={() => navigate(obj.path)}
-                >
-                  <ListItemButton>
-                    <ListItemIcon>{obj.icon}</ListItemIcon>
-                    <ListItemText primary={obj.title} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            )}
+            {[
+              { title: "Opgaver", path: "/opgaver", icon: <DashboardIcon /> },
+            ].map((obj) => (
+              <ListItem
+                key={obj.title}
+                disablePadding
+                onClick={() => navigate(obj.path)}
+              >
+                <ListItemButton>
+                  <ListItemIcon>{obj.icon}</ListItemIcon>
+                  <ListItemText primary={obj.title} />
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
           <Divider />
           <List>
             {[
               {
-                title: "Account",
-                path: "/account",
+                title: "Konto",
+                path: "/konto",
                 icon: <AccountCircleIcon />,
               },
             ].map((obj) => (
