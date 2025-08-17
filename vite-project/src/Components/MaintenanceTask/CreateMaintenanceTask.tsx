@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { HousingType } from "../../enums";
+import axios from "axios";
 
 export default function CreateMaintenanceTask() {
   const [open, setOpen] = useState(false);
@@ -46,11 +47,21 @@ export default function CreateMaintenanceTask() {
   const handleCreateTask = () => {
     // Logic to create the maintenance task goes here
     console.log("Creating maintenance task...");
-    alert(
-      `Title: ${taskTitle}\nDescription: ${taskDescription}\nRelevant Months: ${relevantMonths.join(
-        ", "
-      )}\nHousing Types: ${housingTypes.join(", ")}`
-    );
+    axios
+      .post("/api/maintenance-tasks", {
+        title: taskTitle,
+        description: taskDescription,
+        relevantMonths: relevantMonths,
+        housingTypes: housingTypes,
+      })
+      .then(() => {
+        // After creating the task, you might want to close the dialog
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Error creating maintenance task:", error);
+        alert("Der opstod en fejl under oprettelse af opgaven. Prøv igen.");
+      });
 
     // After creating the task, you might want to close the dialog
     handleClose();

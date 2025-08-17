@@ -245,6 +245,38 @@ app.MapPost("/housing-type", async (UserManager<ApplicationUser> userManager, Ap
     return Results.Ok(accountInfo.HousingType);
 }).RequireAuthorization();
 
+// Post endpoint to create a maintenance task
+app.MapPost("/maintenance-tasks", async (ApplicationDbContext dbContext, ClaimsPrincipal user, [FromBody] MaintenanceTaskRequest request) =>
+{
+    var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+    if (string.IsNullOrEmpty(userId))
+    {
+        return Results.Unauthorized();
+    }
+
+    var accountInfo = await dbContext.AccountInformations
+        .FirstOrDefaultAsync(a => a.UserId == userId);
+
+    if (accountInfo == null)
+    {
+        return Results.NotFound();
+    }
+
+    var task = new MaintenanceTask
+    {
+        Title = request.Title,
+        Description = request.Description,
+        RelevantMonths = request.RelevantMonths,
+        HousingTypes = request.HousingTypes,
+        // UserId = userId
+    };
+
+    dbContext.MaintenanceTasks.Add(task);
+    await dbContext.SaveChangesAsync();
+
+    return Results.Created($"/api/maintenance-tasks/{task.Id}", task);
+}).RequireAuthorization();
+
 app.UseCors(p => p
     .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost" || new Uri(origin).Host.EndsWith($".{Environment.GetEnvironmentVariable("DOMAIN")}"))
     .AllowAnyMethod()
