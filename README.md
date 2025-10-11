@@ -17,8 +17,7 @@ This repository provides a full-stack development environment using Docker Compo
 - [Services](#services)
 - [Environment Variables](#environment-variables)
 - [Volumes & Networks](#volumes--networks)
-- [Contributing](#contributing)
-- [License](#license)
+- [Deployment](#deployment)
 
 ---
 
@@ -109,3 +108,7 @@ Copy `.env.template` to `.env` and set:
   `network` – Custom bridge for inter-service communication
 
 ---
+
+## Deployment
+
+...
