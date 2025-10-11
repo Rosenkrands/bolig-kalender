@@ -12,8 +12,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-#      - name: Create env file from secret
-#        run: echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
+      - name: Create env file from secret
+        run: echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
 
       - name: Validate docker-compose file
         run: docker compose --file docker-compose.prod.yml config
