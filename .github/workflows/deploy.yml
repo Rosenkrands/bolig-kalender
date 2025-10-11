@@ -31,7 +31,6 @@ jobs:
           SSH_PORT: ${{ secrets.SSH_PORT }}
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-          ENV_FILE_CONTENT: ${{ secrets.ENV_FILE_CONTENT }}
         run: |
           missing=0
           for secret in SSH_PRIVATE_KEY SSH_PORT SSH_USER SSH_HOST ENV_FILE_CONTENT; do
