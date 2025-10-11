@@ -33,7 +33,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           missing=0
-          for secret in SSH_PRIVATE_KEY SSH_PORT SSH_USER SSH_HOST ENV_FILE_CONTENT; do
+          for secret in SSH_PRIVATE_KEY SSH_PORT SSH_USER SSH_HOST; do
             if [ -z "${!secret}" ]; then
               echo "Secret $secret is not set!"
               missing=1
