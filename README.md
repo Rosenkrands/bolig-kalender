@@ -45,7 +45,7 @@ This repository provides a full-stack development environment using Docker Compo
    ```
 
 4. **Access the services:**
-   - Frontend: [http://localhost:8080](http://localhost:8080)
+   - Frontend: [http://localhost:8000](http://localhost:8000)
    - API: [http://localhost:4000](http://localhost:4000)
    - PostgreSQL: `localhost:5432`
 
