@@ -32,8 +32,8 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -i key.pem -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd /bolig-kalender
+          ssh -i key.pem -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd /repos/bolig-kalender
             git pull
             bash re_deploy.sh
           EOF
