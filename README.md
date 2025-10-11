@@ -81,7 +81,7 @@ This repository provides a full-stack development environment using Docker Compo
 
 | Service | Description           | Port(s) |
 | ------- | --------------------- | ------- |
-| nginx   | Reverse proxy         | 8080    |
+| nginx   | Reverse proxy         | 8000    |
 | app     | React frontend (Vite) | 3000    |
 | api     | ASP.NET Core backend  | 4000    |
 | db      | PostgreSQL database   | 5432    |
