@@ -12,6 +12,8 @@ export default function Tasks() {
   const [housingType, setHousingType] = useState<HousingType | "">("");
   const [error, setError] = useState<string>("");
 
+  const [refreshTasks, setRefreshTasks] = useState(false);
+
   // functions
   useEffect(() => {
     // Load the user's housing type from local storage or API
@@ -32,6 +34,11 @@ export default function Tasks() {
         setError("Failed to load housing type.");
       });
   }, []);
+
+  const handleCreateTask = () => {
+    // Trigger a refresh of the tasks list
+    setRefreshTasks((prev) => !prev);
+  };
 
   return (
     <AuthorizeView>
@@ -67,12 +74,17 @@ export default function Tasks() {
             eller slette opgaver.
           </Typography>
           <Box sx={{ mb: 2 }}>
-            <CreateMaintenanceTask />
+            <CreateMaintenanceTask onTaskCreated={() => handleCreateTask()} />
           </Box>
           <Divider sx={{ my: 2 }} />
           {
             // Only show tasks if housingType is set
-            housingType && <DisplayMaintenanceTasks housingType={housingType} />
+            housingType && (
+              <DisplayMaintenanceTasks
+                housingType={housingType}
+                refreshTasks={refreshTasks}
+              />
+            )
           }
           {
             // Show error if exists

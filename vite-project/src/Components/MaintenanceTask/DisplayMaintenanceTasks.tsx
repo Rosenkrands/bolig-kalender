@@ -87,9 +87,10 @@ function MaintenanceTaskPreview({
   );
 }
 
-export default function DisplayMaintenanceTasks(
-  { housingType }: Readonly<{ housingType: HousingType }> // Default value to avoid undefined errors
-) {
+export default function DisplayMaintenanceTasks({
+  housingType,
+  refreshTasks,
+}: Readonly<{ housingType: HousingType; refreshTasks: boolean }>) {
   // states
   const [maintenanceTasks, setMaintenanceTasks] = useState<MaintenanceTask[]>(
     []
@@ -109,7 +110,7 @@ export default function DisplayMaintenanceTasks(
         console.error("Failed to fetch maintenance tasks:", error);
         setError("Failed to fetch maintenance tasks");
       });
-  }, []);
+  }, [refreshTasks]); // Re-fetch tasks when refreshTasks changes
 
   /**
    * Deletes a maintenance task by its ID

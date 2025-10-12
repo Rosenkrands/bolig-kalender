@@ -23,7 +23,11 @@ import { useState } from "react";
 import { HousingType } from "../../enums";
 import axios from "axios";
 
-export default function CreateMaintenanceTask() {
+export default function CreateMaintenanceTask({
+  onTaskCreated,
+}: Readonly<{
+  onTaskCreated?: () => void;
+}>) {
   const [open, setOpen] = useState(false);
 
   const [taskTitle, setTaskTitle] = useState("");
@@ -62,6 +66,11 @@ export default function CreateMaintenanceTask() {
         console.error("Error creating maintenance task:", error);
         alert("Der opstod en fejl under oprettelse af opgaven. Prøv igen.");
       });
+
+    // Notify parent component to refresh the task list
+    if (onTaskCreated) {
+      onTaskCreated();
+    }
 
     // After creating the task, you might want to close the dialog
     handleClose();
