@@ -248,6 +248,21 @@ app.MapGet("/maintenance-tasks", async (ApplicationDbContext dbContext) =>
     return Results.Ok(tasks);
 }).RequireAuthorization();
 
+// Delete a maintenance task by ID
+app.MapDelete("/maintenance-tasks/{id}", async (int id, ApplicationDbContext dbContext) =>
+{
+    var task = await dbContext.MaintenanceTasks.FindAsync(id);
+    if (task == null)
+    {
+        return Results.NotFound();
+    }
+
+    dbContext.MaintenanceTasks.Remove(task);
+    await dbContext.SaveChangesAsync();
+
+    return Results.NoContent();
+}).RequireAuthorization();
+
 // Post endpoint to create a maintenance task
 app.MapPost("/maintenance-tasks", async (ApplicationDbContext dbContext, ClaimsPrincipal user, [FromBody] MaintenanceTaskRequest request) =>
 {

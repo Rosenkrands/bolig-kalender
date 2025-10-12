@@ -15,15 +15,10 @@ import { MaintenanceTask } from "../../interfaces";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
-  // functions
-  const handleDelete = () => {
-    // Implement delete functionality here
-    alert(
-      `Trying to delete task id: ${task.id}. Delete functionality not implemented yet`
-    );
-  };
-
+function MaintenanceTaskPreview({
+  task,
+  onDelete,
+}: Readonly<{ task: MaintenanceTask; onDelete: () => void }>) {
   return (
     <Card
       variant="outlined"
@@ -41,7 +36,7 @@ function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
               aria-label="Slet opgave"
               size="small"
               sx={{ color: "primary.contrastText" }}
-              onClick={() => handleDelete()}
+              onClick={onDelete}
             >
               <DeleteIcon />
             </IconButton>
@@ -116,6 +111,25 @@ export default function DisplayMaintenanceTasks(
       });
   }, []);
 
+  /**
+   * Deletes a maintenance task by its ID
+   * @param taskId ID of the task to delete
+   */
+  const handleDeleteTask = (taskId: number) => {
+    axios
+      .delete(`/api/maintenance-tasks/${taskId}`)
+      .then(() => {
+        setMaintenanceTasks((prevTasks) =>
+          // Filter out the deleted task from the state
+          prevTasks.filter((task) => task.id !== taskId)
+        );
+      })
+      .catch((error) => {
+        console.error("Failed to delete maintenance task:", error);
+        setError("Failed to delete maintenance task");
+      });
+  };
+
   return (
     <>
       <Typography variant="h5" gutterBottom>
@@ -123,8 +137,31 @@ export default function DisplayMaintenanceTasks(
       </Typography>
       <Stack spacing={2}>
         {maintenanceTasks.map((task) => (
-          <MaintenanceTaskPreview key={task.id} task={task} />
+          <MaintenanceTaskPreview
+            key={task.id}
+            task={task}
+            onDelete={() => handleDeleteTask(task.id)}
+          />
         ))}
+        {maintenanceTasks.length === 0 && (
+          <Box width={"100%"} textAlign={"center"} sx={{ py: 2 }}>
+            <Typography
+              variant="body2"
+              color="primary.main"
+              sx={{ opacity: 0.5, fontStyle: "italic" }}
+            >
+              Ingen vedligeholdelsesopgaver fundet
+            </Typography>
+            <Typography
+              variant="body2"
+              color="primary.main"
+              sx={{ opacity: 0.5, fontStyle: "italic" }}
+            >
+              Du kan tilføje nye opgaver ved at klikke på "Tilføj opgave"
+              knappen ovenfor.
+            </Typography>
+          </Box>
+        )}
       </Stack>
       {error && (
         <Box width={"100%"} sx={{ mb: 1 }}>
