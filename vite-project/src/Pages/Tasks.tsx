@@ -1,6 +1,7 @@
 import { Container, Typography } from "@mui/material";
 import AppPage from "../Components/AppPage";
 import AuthorizeView from "../Components/AuthorizeView";
+import CreateMaintenanceTask from "../Components/MaintenanceTask/CreateMaintenanceTask.tsx";
 
 export default function Tasks() {
   return (
@@ -23,6 +24,7 @@ export default function Tasks() {
             nye opgaver, redigere eksisterende opgaver og se hvordan de fordeler
             sig udover året.
           </Typography>
+          <CreateMaintenanceTask />
           <Typography
             variant="h5"
             component="h2"
