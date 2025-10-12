@@ -42,7 +42,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 // Add Swagger services
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "BoligKalender API", Description = "API for managing housing tasks in the BoligKalender application", Version = "v1" });
 });
 
 var app = builder.Build();
@@ -55,7 +55,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BoligKalender API V1"));
 }
 
 app.UseAuthorization();
@@ -214,11 +214,7 @@ app.MapPost("/housing-type", async (UserManager<ApplicationUser> userManager, Ap
     var accountInfo = await dbContext.AccountInformations
         .FirstOrDefaultAsync(a => a.UserId == userId);
 
-    if (accountInfo == null)
-    {
-        return Results.NotFound();
-    }
-
+    // Check if account information exists
     if (accountInfo == null)
     {
         // If no account information is found, create a new one
@@ -243,6 +239,13 @@ app.MapPost("/housing-type", async (UserManager<ApplicationUser> userManager, Ap
     await dbContext.SaveChangesAsync();
 
     return Results.Ok(accountInfo.HousingType);
+}).RequireAuthorization();
+
+// Get all maintenance tasks
+app.MapGet("/maintenance-tasks", async (ApplicationDbContext dbContext) =>
+{
+    var tasks = await dbContext.MaintenanceTasks.ToListAsync();
+    return Results.Ok(tasks);
 }).RequireAuthorization();
 
 // Post endpoint to create a maintenance task

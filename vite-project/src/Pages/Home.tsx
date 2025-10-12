@@ -20,6 +20,8 @@ import DisplayMaintenanceTasks from "../Components/MaintenanceTask/DisplayMainte
 
 export default function Home() {
   // states
+  const [showGettingStarted, setShowGettingStarted] = useState(true);
+
   const [housingType, setHousingType] = useState<HousingType | "">("");
   const [error, setError] = useState<string>("");
   const [message, setMessage] = useState<string>("");
@@ -37,6 +39,12 @@ export default function Home() {
       .get("/api/housing-type")
       .then((response) => {
         console.log("Fetched housing type:", response.data);
+
+        if (response.data) {
+          // If a housing type is already set, hide the getting started section
+          setShowGettingStarted(false);
+        }
+
         setHousingType(response.data ?? "");
       })
       .catch((error) => {
@@ -83,85 +91,100 @@ export default function Home() {
             opgaver i dit hjem. Uanset om du bor i en lejlighed, et hus eller en
             anden boligtype, kan du tilpasse din kalender til dine behov.
           </Typography>
-          <Typography variant="h5" sx={{ mb: 2 }}>
-            Kom godt i gang
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            For at komme i gang med BoligKalender, skal du først vælge din
-            boligtype. Dette hjælper os med at tilpasse kalenderen til dine
-            specifikke behov og opgaver.
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 2 }}>
-            Når du har valgt din boligtype, kan du begynde at udforske
-            funktionerne i BoligKalender. Vi håber, at du vil finde det nyttigt
-            til at holde styr på dine boligrelaterede opgaver og
-            vedligeholdelse.
-          </Typography>
-          <Divider sx={{ mb: 2 }} />
-          <Typography variant="h5" sx={{ mb: 2 }}>
-            Vælg boligtype
-          </Typography>
-          <Box width={"100%"} sx={{ mb: 1 }}>
-            {error && <Alert severity="error">{error}</Alert>}
-            {message && <Alert severity="success">{message}</Alert>}
-          </Box>
-          <FormControl fullWidth>
-            <InputLabel id="select-housing-type-label">Boligtype</InputLabel>
-            <Select
-              labelId="select-housing-type-label"
-              id="select-housing-type"
-              value={housingType ?? ""}
-              label="Boligtype"
-              onChange={handleHousingTypeChange}
-              // disabled={error !== ""}
-            >
-              <MenuItem value="">
-                <em>Vælg boligtype</em>
-              </MenuItem>
-              <MenuItem value={HousingType.House}>{HousingType.House}</MenuItem>
-              <MenuItem value={HousingType.Apartment}>
-                {HousingType.Apartment}
-              </MenuItem>
-            </Select>
-          </FormControl>
           <Divider sx={{ my: 2 }} />
-          {housingType && (
-            <>
-              <Typography variant="h5" sx={{ mb: 2 }}>
-                Foreslåede opgaver baseret på din boligtype
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                Du har valgt <strong>{housingType}</strong> som din boligtype.
-                Dette vil hjælpe os med at tilpasse BoligKalender til dine
-                specifikke behov. Du kan nu begynde at tilføje opgaver og
-                planlægge vedligeholdelse baseret på din boligtype.
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                For at komme i gang kan du vælge fra allerede eksisterende
-                opgaver, eller du kan oprette dine egne vedligeholdelsesopgaver.
-              </Typography>
-              <Divider sx={{ my: 2 }} />
-              <Typography variant="h5" sx={{ mb: 2 }}>
-                Vælg opgaver
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                Vælg en opgave fra listen nedenfor for at tilføje den til din
-                kalender. Du kan også oprette nye opgaver, hvis du har brug for
-                det.
-              </Typography>
-              {/* Here you would typically map through a list of predefined tasks based on the housing type */}
-              <DisplayMaintenanceTasks housingType={housingType} />
-              <Divider sx={{ my: 2 }} />
-              <Typography variant="h5" sx={{ mb: 2 }}>
-                Opret vedligeholdelsesopgave
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                Klik på knappen nedenfor for at oprette en ny
-                vedligeholdelsesopgave.
-              </Typography>
-              <CreateMaintenanceTask />
-            </>
-          )}
+          {
+            // Show getting started section only if no housing type is initially set
+            showGettingStarted && (
+              <>
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                  Kom godt i gang
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  For at komme i gang med BoligKalender, skal du først vælge din
+                  boligtype. Dette hjælper os med at tilpasse kalenderen til
+                  dine specifikke behov og opgaver.
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  Når du har valgt din boligtype, kan du begynde at udforske
+                  funktionerne i BoligKalender. Vi håber, at du vil finde det
+                  nyttigt til at holde styr på dine boligrelaterede opgaver og
+                  vedligeholdelse.
+                </Typography>
+                <Divider sx={{ mb: 2 }} />
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                  Vælg boligtype
+                </Typography>
+                <FormControl fullWidth sx={{ mb: 2 }}>
+                  <InputLabel id="select-housing-type-label">
+                    Boligtype
+                  </InputLabel>
+                  <Select
+                    labelId="select-housing-type-label"
+                    id="select-housing-type"
+                    value={housingType ?? ""}
+                    label="Boligtype"
+                    onChange={handleHousingTypeChange}
+                    // disabled={error !== ""}
+                  >
+                    <MenuItem value="">
+                      <em>Vælg boligtype</em>
+                    </MenuItem>
+                    <MenuItem value={HousingType.House}>
+                      {HousingType.House}
+                    </MenuItem>
+                    <MenuItem value={HousingType.Apartment}>
+                      {HousingType.Apartment}
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <Box width={"100%"} sx={{ mb: 1 }}>
+                  {error && <Alert severity="error">{error}</Alert>}
+                  {message && <Alert severity="success">{message}</Alert>}
+                </Box>
+                <Divider sx={{ my: 2 }} />
+              </>
+            )
+          }
+          {
+            // Show the rest of the content only if a housing type is selected
+            housingType && (
+              <>
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                  Foreslåede opgaver baseret på din boligtype
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  Du har valgt <strong>{housingType}</strong> som din boligtype.
+                  Dette vil hjælpe os med at tilpasse BoligKalender til dine
+                  specifikke behov. Du kan nu begynde at tilføje opgaver og
+                  planlægge vedligeholdelse baseret på din boligtype.
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  For at komme i gang kan du vælge fra allerede eksisterende
+                  opgaver, eller du kan oprette dine egne
+                  vedligeholdelsesopgaver.
+                </Typography>
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                  Vælg opgaver
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  Vælg en opgave fra listen nedenfor for at tilføje den til din
+                  kalender. Du kan også oprette nye opgaver, hvis du har brug
+                  for det.
+                </Typography>
+                <DisplayMaintenanceTasks housingType={housingType} />
+                <Divider sx={{ my: 2 }} />
+                <Typography variant="h5" sx={{ mb: 2 }}>
+                  Opret vedligeholdelsesopgave
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 2 }}>
+                  Klik på knappen nedenfor for at oprette en ny
+                  vedligeholdelsesopgave.
+                </Typography>
+                <CreateMaintenanceTask />
+              </>
+            )
+          }
         </Container>
       </AppPage>
     </AuthorizeView>

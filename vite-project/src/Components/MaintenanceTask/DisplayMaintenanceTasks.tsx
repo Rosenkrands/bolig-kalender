@@ -1,13 +1,8 @@
 import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
 import { HousingType } from "../../enums";
-
-interface MaintenanceTask {
-  id?: string;
-  title: string;
-  description: string;
-  HousingTypes: string[];
-  RelevantMonths: number[];
-}
+import { MaintenanceTask } from "../../interfaces";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
   return (
@@ -37,7 +32,7 @@ function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
               flexWrap={"wrap"}
               sx={{ marginBottom: 1 }}
             >
-              {task.HousingTypes.map((type) => (
+              {task.housingTypes.map((type) => (
                 <Chip
                   key={type}
                   label={type}
@@ -49,7 +44,7 @@ function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
           <Box>
             <Typography variant="subtitle1">Relevante måneder</Typography>
             <Stack direction="row" useFlexGap flexWrap={"wrap"} spacing={1}>
-              {task.RelevantMonths.map((month) => (
+              {task.relevantMonths.map((month) => (
                 <Chip
                   key={month}
                   label={`${month}`}
@@ -67,30 +62,27 @@ function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
 export default function DisplayMaintenanceTasks(
   { housingType }: Readonly<{ housingType: HousingType }> // Default value to avoid undefined errors
 ) {
-  // Get the maintenance tasks from the API or state
-  const maintenanceTasks: MaintenanceTask[] = [
-    {
-      id: "1",
-      title: "Tjek varmesystem",
-      description: "Sørg for, at varmesystemet fungerer korrekt.",
-      HousingTypes: [HousingType.House, HousingType.Apartment],
-      RelevantMonths: [1, 2, 3, 10, 11, 12],
-    },
-    {
-      id: "2",
-      title: "Inspicer tag",
-      description: "Tjek for skader eller utætheder på taget.",
-      HousingTypes: [HousingType.House],
-      RelevantMonths: [4, 5, 6],
-    },
-    {
-      id: "3",
-      title: "Rens tagrender",
-      description: "Fjern snavs fra tagrender for at undgå tilstopning.",
-      HousingTypes: [HousingType.House],
-      RelevantMonths: [7, 8, 9],
-    },
-  ];
+  // states
+  const [maintenanceTasks, setMaintenanceTasks] = useState<MaintenanceTask[]>(
+    []
+  );
+  const [error, setError] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
+
+  // functions
+  useEffect(() => {
+    // Fetch maintenance tasks from the API
+    axios
+      .get("/api/maintenance-tasks")
+      .then((response) => {
+        console.log("Fetched maintenance tasks:", response.data);
+        setMaintenanceTasks(response.data);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch maintenance tasks:", error);
+        setError("Failed to fetch maintenance tasks");
+      });
+  }, []);
 
   return (
     <>
