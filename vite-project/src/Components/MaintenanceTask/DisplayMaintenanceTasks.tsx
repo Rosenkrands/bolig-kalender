@@ -4,24 +4,49 @@ import {
   Card,
   CardContent,
   Chip,
+  IconButton,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { HousingType } from "../../enums";
 import { MaintenanceTask } from "../../interfaces";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
 function MaintenanceTaskPreview({ task }: Readonly<{ task: MaintenanceTask }>) {
+  // functions
+  const handleDelete = () => {
+    // Implement delete functionality here
+    alert(
+      `Trying to delete task id: ${task.id}. Delete functionality not implemented yet`
+    );
+  };
+
   return (
     <Card
       variant="outlined"
       sx={{
         backgroundColor: "primary.main",
         color: "primary.contrastText",
+        position: "relative",
       }}
     >
-      <CardContent>
+      <CardContent sx={{ position: "relative" }}>
+        {/* Delete button at top right */}
+        <Box sx={{ position: "absolute", top: 8, right: 8 }}>
+          <Tooltip title="Slet opgave">
+            <IconButton
+              aria-label="Slet opgave"
+              size="small"
+              sx={{ color: "primary.contrastText" }}
+              onClick={() => handleDelete()}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
         <Typography variant="h5">{task.title}</Typography>
         <Typography variant="body1">{task.description}</Typography>
         <Stack

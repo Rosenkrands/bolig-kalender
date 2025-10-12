@@ -69,12 +69,19 @@ export default function Tasks() {
           <Box sx={{ mb: 2 }}>
             <CreateMaintenanceTask />
           </Box>
-          {housingType && <DisplayMaintenanceTasks housingType={housingType} />}
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          )}
+          <Divider sx={{ my: 2 }} />
+          {
+            // Only show tasks if housingType is set
+            housingType && <DisplayMaintenanceTasks housingType={housingType} />
+          }
+          {
+            // Show error if exists
+            error && (
+              <Alert severity="error" sx={{ mb: 2 }}>
+                {error}
+              </Alert>
+            )
+          }
           <Divider sx={{ my: 2 }} />
           <Typography
             variant="h5"
