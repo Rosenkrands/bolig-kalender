@@ -1,4 +1,12 @@
-import { Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { HousingType } from "../../enums";
 import { MaintenanceTask } from "../../interfaces";
 import axios from "axios";
@@ -67,7 +75,6 @@ export default function DisplayMaintenanceTasks(
     []
   );
   const [error, setError] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
 
   // functions
   useEffect(() => {
@@ -94,6 +101,11 @@ export default function DisplayMaintenanceTasks(
           <MaintenanceTaskPreview key={task.id} task={task} />
         ))}
       </Stack>
+      {error && (
+        <Box width={"100%"} sx={{ mb: 1 }}>
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      )}
     </>
   );
 }
