@@ -1,9 +1,38 @@
-import { Container, Typography } from "@mui/material";
+import { Alert, Box, Container, Divider, Typography } from "@mui/material";
 import AppPage from "../Components/AppPage";
 import AuthorizeView from "../Components/AuthorizeView";
 import CreateMaintenanceTask from "../Components/MaintenanceTask/CreateMaintenanceTask.tsx";
+import DisplayMaintenanceTasks from "../Components/MaintenanceTask/DisplayMaintenanceTasks.tsx";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { HousingType } from "../enums.ts";
 
 export default function Tasks() {
+  // states
+  const [housingType, setHousingType] = useState<HousingType | "">("");
+  const [error, setError] = useState<string>("");
+
+  // functions
+  useEffect(() => {
+    // Load the user's housing type from local storage or API
+    // const storedHousingType = localStorage.getItem("housingType");
+    // if (storedHousingType) {
+    //   setHousingType(storedHousingType as HousingType);
+    // }
+
+    // You can also fetch the housing type from an API if needed
+    axios
+      .get("/api/housing-type")
+      .then((response) => {
+        console.log("Fetched housing type:", response.data);
+        setHousingType(response.data ?? "");
+      })
+      .catch((error) => {
+        console.error("Failed to fetch housing type:", error);
+        setError("Failed to load housing type.");
+      });
+  }, []);
+
   return (
     <AuthorizeView>
       <AppPage>
@@ -24,7 +53,7 @@ export default function Tasks() {
             nye opgaver, redigere eksisterende opgaver og se hvordan de fordeler
             sig udover året.
           </Typography>
-          <CreateMaintenanceTask />
+          <Divider sx={{ my: 2 }} />
           <Typography
             variant="h5"
             component="h2"
@@ -37,6 +66,16 @@ export default function Tasks() {
             Opgaverne er organiseret kategori og du kan her tilføje, redigere
             eller slette opgaver.
           </Typography>
+          <Box sx={{ mb: 2 }}>
+            <CreateMaintenanceTask />
+          </Box>
+          {housingType && <DisplayMaintenanceTasks housingType={housingType} />}
+          {error && (
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {error}
+            </Alert>
+          )}
+          <Divider sx={{ my: 2 }} />
           <Typography
             variant="h5"
             component="h2"

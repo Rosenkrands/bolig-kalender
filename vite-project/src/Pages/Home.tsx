@@ -1,6 +1,7 @@
 import {
   Alert,
   Box,
+  Button,
   Container,
   Divider,
   FormControl,
@@ -15,10 +16,12 @@ import AuthorizeView from "../Components/AuthorizeView.tsx";
 import { useEffect, useState } from "react";
 import { HousingType } from "../enums.ts";
 import axios from "axios";
-import CreateMaintenanceTask from "../Components/MaintenanceTask/CreateMaintenanceTask.tsx";
-import DisplayMaintenanceTasks from "../Components/MaintenanceTask/DisplayMaintenanceTasks.tsx";
+import { useNavigate } from "react-router";
 
 export default function Home() {
+  // helpers
+  const navigate = useNavigate();
+
   // states
   const [showGettingStarted, setShowGettingStarted] = useState(true);
 
@@ -150,7 +153,7 @@ export default function Home() {
             housingType && (
               <>
                 <Typography variant="h5" sx={{ mb: 2 }}>
-                  Foreslåede opgaver baseret på din boligtype
+                  Du har valgt din boligtype
                 </Typography>
                 <Typography variant="body1" sx={{ mb: 2 }}>
                   Du har valgt <strong>{housingType}</strong> som din boligtype.
@@ -163,25 +166,15 @@ export default function Home() {
                   opgaver, eller du kan oprette dine egne
                   vedligeholdelsesopgaver.
                 </Typography>
+                {/* Add a link to the opgaver page */}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => navigate("/opgaver")}
+                >
+                  Gå til opgaver
+                </Button>
                 <Divider sx={{ my: 2 }} />
-                <Typography variant="h5" sx={{ mb: 2 }}>
-                  Vælg opgaver
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  Vælg en opgave fra listen nedenfor for at tilføje den til din
-                  kalender. Du kan også oprette nye opgaver, hvis du har brug
-                  for det.
-                </Typography>
-                <DisplayMaintenanceTasks housingType={housingType} />
-                <Divider sx={{ my: 2 }} />
-                <Typography variant="h5" sx={{ mb: 2 }}>
-                  Opret vedligeholdelsesopgave
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  Klik på knappen nedenfor for at oprette en ny
-                  vedligeholdelsesopgave.
-                </Typography>
-                <CreateMaintenanceTask />
               </>
             )
           }
