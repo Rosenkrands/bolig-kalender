@@ -5,20 +5,22 @@ COPY ["asp-net-core-project.csproj", "."]
 RUN dotnet restore "./asp-net-core-project.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "asp-net-core-project.csproj" -c Debug -o /app/build
+RUN dotnet build "asp-net-core-project.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "asp-net-core-project.csproj" -c Debug -o /app/publish
+RUN dotnet publish "asp-net-core-project.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Use the official ASP.NET Core runtime image
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS final
 WORKDIR /app
 
+# Install dotnet-ef tool globally with specific version
+ENV PATH="$PATH:/root/.dotnet/tools"
+RUN dotnet tool install --global dotnet-ef --version 9.0.0
+
 # Related to running the migrations on start up
 COPY --from=build /src /src
-RUN dotnet tool install --global dotnet-ef
-ENV PATH="$PATH:/root/.dotnet/tools"
-
 COPY --from=publish /app/publish .
+
 EXPOSE 4000
-ENTRYPOINT ["sh", "-c", "dotnet ef database update --project /src/asp-net-core-project.csproj && dotnet asp-net-core-project.dll"]
+ENTRYPOINT ["sh", "-c", "dotnet-ef database update --project /src/asp-net-core-project.csproj && dotnet asp-net-core-project.dll"]
